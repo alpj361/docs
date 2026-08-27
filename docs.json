@@ -35,11 +35,15 @@
     "groups": [
       {
         "group": "Referencia técnica",
-        "icon": "brackets-curly",
+        "icon": "book-open-code",
         "pages": [
           "codex/tecnica/arquitectura",
+          "codex/tecnica/modelo-de-datos",
           "codex/tecnica/tipos-de-item",
-          "codex/tecnica/api-rest"
+          "codex/tecnica/tipos-de-campo",
+          "codex/tecnica/api-rest",
+          "codex/tecnica/mcp",
+          "codex/tecnica/migracion-v4"
         ]
       },
       {

@@ -1,0 +1,58 @@
+---
+title: "Migración y compatibilidad"
+sidebarTitle: "Migración v4"
+description: "Cambios, métricas y puente temporal con clientes v3."
+---
+
+## Cambios introducidos
+
+- `field_keys` y `preset_keys` en `codex_universe_items`;
+- tablas `codex_user_fields` y `codex_user_presets`;
+- claves de sistema `sys_...`;
+- claves personales `usr_...`;
+- validación estricta REST y MCP;
+- eliminación de `flag`;
+- representación de espectros mediante `eje`.
+
+## Resultado de la migración inicial
+
+Migración ejecutada el 25 de agosto de 2026:
+
+| Métrica | Resultado |
+| --- | --: |
+| Ítems conservados | 1,329 |
+| Valores `flag` eliminados | 206 |
+| Ítems con `field_keys` | 620 |
+| Asociaciones campo–ítem | 1,443 |
+| Cambios pendientes en el segundo dry run | 0 |
+
+El campo histórico `Oficina` de Actor se registró como `usr_oficina`. Los valores `flag` no se migraron a ejes porque no existe una correspondencia semántica segura.
+
+## Compatibilidad temporal
+
+- El schema conserva `presets` y `legacyPresets`.
+- v4 escribe mediante `fields`.
+- Los valores se reflejan en `details` para clientes v3.
+- La lectura infiere claves conocidas desde `details`.
+- Un valor histórico inválido aparece como `legacy_invalid`.
+
+| Tipo | Clave legacy | Label vigente |
+| --- | --- | --- |
+| Actor | `profesion` | Profesión |
+| Territorio | `lider` | Quién controla |
+| Evento | `resultado` | Resultado / desenlace |
+
+## Frontend móvil pendiente
+
+La app móvil aún mantiene partes de v3. Su adaptación deberá:
+
+1. indexar por `field_key`;
+2. consumir `fields`, `presetDefinitions` y `baseFieldKeys`;
+3. resolver antes de crear campos;
+4. validar mediante `/validate-fields`;
+5. guardar mediante el PATCH v4;
+6. consumir `resolved_fields`;
+7. retirar `flag` de UI y payloads;
+8. persistir los nueve tipos canónicos.
+
+Esta documentación no modifica todavía la interfaz móvil.

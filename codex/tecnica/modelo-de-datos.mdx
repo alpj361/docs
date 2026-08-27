@@ -1,0 +1,62 @@
+---
+title: "Modelo de datos"
+sidebarTitle: "Modelo de datos"
+description: "Tablas, snapshots de presets y aislamiento por usuario en Supabase."
+---
+
+## `codex_universe_items`
+
+| Columna | Tipo | Uso |
+| --- | --- | --- |
+| `id` | UUID | Identidad del ítem |
+| `user_id` | UUID | Propietario |
+| `tipo` | citext | Tipo canónico |
+| `name` | text | Nombre principal |
+| `description` | text nullable | Resumen |
+| `aliases` | text\[\] | Nombres alternativos |
+| `tags` | text\[\] | Etiquetas |
+| `details` | jsonb | Puente temporal de valores por label |
+| `field_keys` | text\[\] | Campos asociados |
+| `preset_keys` | text\[\] | Presets aplicados |
+| `geo` | jsonb nullable | Datos geográficos legacy |
+| `geo_geometry` | geometry nullable | Geometría espacial |
+
+`field_keys` y `preset_keys` tienen índices GIN.
+
+## `codex_user_fields`
+
+| Columna | Uso |
+| --- | --- |
+| `field_key` | Clave estable |
+| `label` | Copy visible |
+| `field_type` | Tipo y shape normativo |
+| `config` | `options`, `poles`, `cols` o configuración futura |
+| `item_types` | Tipos donde aplica |
+| `reason` | Motivo obligatorio de creación |
+| `created_by` | `user`, `agent` o `migration` |
+| `active` | Disponibilidad en catálogo |
+
+## `codex_user_presets`
+
+| Columna | Uso |
+| --- | --- |
+| `preset_key` | Identidad estable |
+| `label` | Nombre visible |
+| `description` | Explicación opcional |
+| `item_types` | Tipos donde aplica |
+| `field_keys` | Campos incluidos |
+| `active` | Disponibilidad |
+
+## Presets como snapshot
+
+Aplicar un preset agrega su clave a `preset_keys` e incorpora sus campos a `field_keys`. No duplica definiciones ni actualiza retroactivamente el ítem cuando cambia el preset. Un ítem puede combinar varios presets. Enviar `preset_keys: []` elimina la procedencia, pero conserva los campos incorporados.
+
+## RLS
+
+Las tres tablas tienen RLS habilitado. Lectura y escritura se restringen con:
+
+```sql
+auth.uid() = user_id
+```
+
+Cada catálogo personal, preset e ítem pertenece al usuario autenticado.
