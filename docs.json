@@ -37,7 +37,9 @@
         "group": "Referencia técnica",
         "icon": "brackets-curly",
         "pages": [
-          "codex/tecnica/arquitectura"
+          "codex/tecnica/arquitectura",
+          "codex/tecnica/tipos-de-item",
+          "codex/tecnica/api-rest"
         ]
       },
       {
