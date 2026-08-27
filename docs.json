@@ -31,7 +31,23 @@
           "icon": "newspaper"
         }
       ]
-    }
+    },
+    "groups": [
+      {
+        "group": "Referencia técnica",
+        "icon": "brackets-curly",
+        "pages": [
+          "codex/tecnica/arquitectura"
+        ]
+      },
+      {
+        "group": "Getting Started",
+        "pages": [
+          "index",
+          "quickstart"
+        ]
+      }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",
