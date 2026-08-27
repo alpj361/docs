@@ -31,7 +31,29 @@
           "icon": "newspaper"
         }
       ]
-    }
+    },
+    "groups": [
+      {
+        "group": "Referencia técnica",
+        "icon": "book-open-code",
+        "pages": [
+          "codex/tecnica/arquitectura",
+          "codex/tecnica/modelo-de-datos",
+          "codex/tecnica/tipos-de-item",
+          "codex/tecnica/tipos-de-campo",
+          "codex/tecnica/api-rest",
+          "codex/tecnica/mcp",
+          "codex/tecnica/migracion-v4"
+        ]
+      },
+      {
+        "group": "Getting Started",
+        "pages": [
+          "index",
+          "quickstart"
+        ]
+      }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",

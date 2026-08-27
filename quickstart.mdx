@@ -1,47 +1,43 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: "Inicio rápido"
+description: "Integra Codex v4 usando claves estables, validación y aislamiento por usuario."
+sidebarTitle: "Inicio rápido"
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
+# Inicio rápido con Codex v4
 
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
+## 1. Obtén el schema
 
-## Prerequisites
+```http
+GET /api/codex/schema?tipo=Actor
+```
 
-Before you begin, you must have:
+Usa `field_key` como identidad. El `label` es copy de interfaz y puede cambiar.
 
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
+## 2. Resuelve antes de crear
 
-## Get started
+```http
+POST /api/codex/fields/resolve
+```
 
-<Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+Reutiliza una coincidencia `matched`. Si hay `candidates`, pide confirmación. Crea un campo personal solo con `not_found`.
 
-    ```bash
-    npm install your-package
-    ```
-  </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+## 3. Valida el payload
 
-    ```bash
-    your-cli init
-    ```
-  </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+```http
+POST /api/codex/validate-fields
+```
 
-    ```bash
-    your-cli start
-    ```
-  </Step>
-</Steps>
+Cada valor debe cumplir el shape de su `field_type`. El backend rechaza shapes inválidos e incluye instrucciones de corrección.
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+## 4. Guarda por claves
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+```http
+PATCH /api/codex/universe-items/:id/fields
+```
+
+Envía `fields` y, cuando aplique, `preset_keys`. La respuesta incluye `resolved_fields`.
+
+<Card title="Abrir referencia técnica" icon="book-open" href="/codex/tecnica/arquitectura">
+  Consulta el contrato completo de Codex v4.
+</Card>

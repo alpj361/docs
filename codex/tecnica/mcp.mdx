@@ -1,0 +1,55 @@
+---
+title: "Contrato MCP"
+sidebarTitle: "MCP"
+description: "Secuencia y reglas para agentes que escriben en Codex v4."
+---
+
+La herramienta unificada `codex` expone estas acciones:
+
+| Acción | Uso |
+| --- | --- |
+| `get_schema` | Obtener campos y presets |
+| `resolve_field` | Buscar una definición equivalente |
+| `create_field` | Crear un campo personal |
+| `create_preset` | Crear un preset |
+| `create_universe_item` | Crear un ítem con campos v4 |
+| `update_universe_item` | Actualizar por claves estables |
+
+## Secuencia requerida
+
+1. Ejecutar `get_schema`.
+2. Ejecutar `resolve_field`.
+3. Usar `create_field` solo si no existe.
+4. Escribir mediante `fields`.
+5. Si falla el shape, corregir usando `details.correction`.
+
+## Ejemplo
+
+```json
+{
+  "action": "create_universe_item",
+  "tipo": "Actor",
+  "name": "Nombre del actor",
+  "fields": {
+    "sys_actor_cargo": "Diputado",
+    "sys_actor_eje_social": { "value": -10 }
+  },
+  "preset_keys": ["sys_base_actor"]
+}
+```
+
+Para `ref`, `refs`, `archivo` e `imagen`, el agente debe buscar primero mediante `search_universe` y usar UUID reales del mismo usuario.
+
+`details` permanece en la definición MCP por compatibilidad. Los agentes v4 deben usar `fields`.
+
+## Campos personales
+
+Cuando un agente necesita un campo que no existe, debe declarar:
+
+- una `field_key` estable;
+- el `field_type`;
+- el `label` visible;
+- el `reason` de creación;
+- los `item_types` donde aplica.
+
+No debe crear sinónimos para un concepto ya resuelto por el catálogo del usuario.

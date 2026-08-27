@@ -1,0 +1,43 @@
+---
+title: "Tipos y shapes de campo"
+sidebarTitle: "Tipos de campo"
+description: "Los 25 tipos válidos y sus shapes normativos."
+---
+
+El contrato reconoce 25 tipos:
+
+`texto`, `parrafo`, `numero`, `moneda`, `porcentaje`, `fecha`, `rango`, `hora`, `booleano`, `dropdown`, `tags`, `escala`, `ref`, `refs`, `id`, `link`, `email`, `telefono`, `archivo`, `imagen`, `geo`, `color`, `formula`, `eje`, `repetible`.
+
+| Tipo | Shape o regla |
+| --- | --- |
+| `texto`, `parrafo`, `hora`, `telefono`, `id` | string |
+| `numero` | número finito |
+| `porcentaje` | número de 0 a 100 |
+| `fecha` | `YYYY-MM-DD` |
+| `booleano` | boolean |
+| `escala` | entero de 1 a 5 |
+| `link` | URL HTTP(S) |
+| `email` | email válido |
+| `color` | `#RRGGBB` |
+| `dropdown` | string incluido en `config.options` |
+| `tags` | `string[]` sin valores vacíos |
+| `moneda` | `{ "amount": "5000", "cur": "GTQ" }` |
+| `rango` | `{ "from": "2024-01", "to": "2026-05", "gran": "month" }` |
+| `eje` | `{ "value": 20 }`, entero de -100 a 100 |
+| `geo` | `{ "lat": 14.63, "lng": -90.50 }` |
+| `ref` | `{ "id": "UUID_REAL" }` |
+| `refs` | `[{ "id": "UUID_REAL" }]` |
+| `archivo`, `imagen` | `{ "id": "UUID_REAL" }` |
+| `repetible` | `{ "rows": [["celda"]] }` |
+| `formula` | solo lectura |
+
+## Reglas importantes
+
+- `moneda.amount` se normaliza a string y `cur` usa tres letras mayúsculas.
+- Los polos de `eje` viven en `config.poles`.
+- `archivo` e `imagen` referencian otros ítems del Codex; no almacenan URL ni upload directo.
+- `geo` representa un punto y no sustituye fronteras, polígonos, rutas o POIs.
+- Todos los tipos aceptan `null` para vaciar el valor sin retirar el campo.
+- `flag` fue eliminado. Los espectros se modelan con `eje`.
+
+Un shape inválido responde con `INVALID_FIELD_SHAPE` e incluye `details.field_key`, `details.field_type`, `details.expected` y `details.correction`.

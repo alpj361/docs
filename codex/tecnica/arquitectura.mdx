@@ -1,0 +1,45 @@
+---
+title: "Arquitectura Codex v4"
+sidebarTitle: "Arquitectura"
+description: "Arquitectura, flujo y convenciones del contrato Codex v4."
+---
+
+Codex v4 separa tres conceptos:
+
+- `field_key`: identidad estable del campo.
+- `label`: texto visible y modificable.
+- `value`: dato validado según `field_type`.
+
+## Componentes
+
+| Componente | Responsabilidad |
+| --- | --- |
+| `server/services/codexSchema.js` | Tipos normativos, campos del sistema, aliases y tipos canónicos |
+| `server/services/codexContractV4.js` | Resolución, creación, validación, presets y lectura resuelta |
+| `server/routes/codex.js` | API REST |
+| `server/services/mcp.js` | Acciones para agentes |
+| `codex_universe_items` | Ítems estructurados del usuario |
+| `codex_user_fields` | Catálogo de campos personales |
+| `codex_user_presets` | Presets personales |
+
+`codex_items` continúa como biblioteca de archivos, monitoreos y contenido capturado. El contrato v4 opera principalmente sobre `codex_universe_items`.
+
+## Flujo
+
+1. El cliente solicita el schema.
+2. Selecciona campos mediante `field_key`.
+3. Construye un objeto `fields` keyed por esas claves.
+4. El backend valida cada valor según `field_type`.
+5. Las referencias se verifican contra los ítems del mismo usuario.
+6. La lectura devuelve campos resueltos con definición, valor y estado.
+
+## Convenciones
+
+| Origen | Convención | Ejemplo |
+| --- | --- | --- |
+| Campo del sistema | `sys_<tipo>_<slug>` | `sys_actor_cargo` |
+| Campo personal | `usr_<slug>` | `usr_oficina` |
+| Preset del sistema | `sys_base_<tipo>` | `sys_base_actor` |
+| Preset personal | `usr_preset_<slug>` | `usr_preset_politica` |
+
+Los campos del sistema viven en ExtractorW. Los campos y presets personales viven en Supabase y se aíslan por `user_id`.

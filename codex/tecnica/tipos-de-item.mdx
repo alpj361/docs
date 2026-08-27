@@ -1,0 +1,43 @@
+---
+title: "Tipos de ítem"
+sidebarTitle: "Tipos de ítem"
+description: "Nueve tipos canónicos y aliases de compatibilidad."
+---
+
+## Tipos canónicos
+
+| Tipo | Representa |
+| --- | --- |
+| `Actor` | Persona o individuo |
+| `Entidad` | Organización, institución, empresa o partido |
+| `Territorio` | Lugar o ámbito geográfico |
+| `Evento` | Suceso situado en el tiempo |
+| `Historia` | Narrativa, marco, ley, caso o concepto |
+| `Objeto` | Evidencia, documento o cosa concreta |
+| `Artefacto` | Sistema, herramienta, método o infraestructura |
+| `Snippet` | Nota, cita o fragmento interno |
+| `Post` | Publicación de una plataforma |
+
+## Aliases principales
+
+| Entrada | Tipo canónico |
+| --- | --- |
+| persona, funcionario, político | `Actor` |
+| organización, empresa, partido | `Entidad` |
+| lugar, municipio, departamento, país | `Territorio` |
+| concepto, narrativa, ley, caso | `Historia` |
+| suceso, hecho | `Evento` |
+| evidencia, documento, expediente | `Objeto` |
+| herramienta, sistema | `Artefacto` |
+| nota, fragmento, cita | `Snippet` |
+| publicación, tweet | `Post` |
+
+## Mapeo legacy
+
+- `Concepto` → `Historia`
+- `Documento` → `Objeto`
+- `Evidencia` → `Objeto`
+- `Biblioteca` → `Historia`
+- `Fuente` → `Objeto`
+
+El cliente debe enviar y persistir el tipo canónico. Los aliases existen para interpretar entradas antiguas o lenguaje natural.
