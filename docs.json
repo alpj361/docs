@@ -23,8 +23,7 @@
         "group": "Empezar",
         "icon": "rocket",
         "pages": [
-          "index",
-          "quickstart"
+          "index"
         ]
       },
       {
@@ -32,6 +31,7 @@
         "icon": "compass",
         "pages": [
           "codex/guia/que-es-codex",
+          "codex/guia/app-movil",
           "codex/guia/como-usar-codex",
           "codex/guia/campos-y-presets",
           "codex/guia/sources-y-perfiles",
@@ -43,6 +43,7 @@
         "group": "Referencia técnica",
         "icon": "book-open-code",
         "pages": [
+          "quickstart",
           "codex/tecnica/arquitectura",
           "codex/tecnica/modelo-de-datos",
           "codex/tecnica/tipos-de-item",
