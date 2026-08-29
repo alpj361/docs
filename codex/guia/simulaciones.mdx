@@ -1,0 +1,54 @@
+---
+title: "Simulaciones"
+sidebarTitle: "Simulaciones"
+description: "Explora reacciones posibles sin presentar resultados simulados como hechos."
+---
+
+Una Simulación explora cómo podrían reaccionar personas, perfiles o grupos ante un escenario.
+
+Puede ayudarte a:
+
+- probar mensajes o decisiones;
+- explorar reacciones a una política pública;
+- comparar escenarios territoriales;
+- anticipar preguntas y conflictos;
+- identificar supuestos que necesitan evidencia.
+
+## Preparar una simulación
+
+1. Describe el escenario con precisión.
+2. Selecciona Actores, Perfiles o participantes sintéticos.
+3. Agrega Territorios, Historias u otros ítems de contexto.
+4. Enlaza las Sources que sustentan la configuración inicial.
+5. Define turnos y tamaño del lote.
+6. Revisa qué datos son hechos, inferencias o supuestos.
+
+## Durante la ejecución
+
+El motor entrega turnos. Cada participante actúa desde la información que puede ver, no desde todo el conocimiento del sistema.
+
+La ejecución se guarda progresivamente. Si el backend se reinicia, puede recuperarse desde su estado persistido. Los reintentos usan un token de turno para evitar acciones duplicadas.
+
+## Leer el resultado
+
+Revisa:
+
+- métricas de propagación;
+- timeline de acciones;
+- participantes reales, perfiles y sintéticos;
+- Sources utilizadas;
+- versión del motor;
+- supuestos e incertidumbres;
+- fecha de ejecución.
+
+<Warning>
+  Una simulación no predice el futuro ni confirma un hecho. Presenta sus resultados como escenarios y conserva la evidencia que sustentó las condiciones iniciales.
+</Warning>
+
+## Reutilizar una investigación
+
+Una simulación puede referenciar una Historia y sus Actores, Entidades, Territorios y Sources. Los snapshots conservan el contexto histórico aunque después edites las fichas originales.
+
+<Card title="Contrato técnico" icon="database" href="/codex/tecnica/sources-perfiles-simulaciones">
+  Consulta persistencia, participantes y rutas activas.
+</Card>

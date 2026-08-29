@@ -1,5 +1,203 @@
 ---
 title: "API REST"
 sidebarTitle: "API REST"
-description: "Endpoints de schema, campos, presets y valores de Codex v4."
+description: "Endpoints activos de schema, campos, presets, Sources, Perfiles y Simulaciones."
 ---
+
+Base URL:
+
+```text
+https://mcp.standatpd.com
+```
+
+Las rutas privadas requieren:
+
+```http
+Authorization: Bearer <access_token>
+```
+
+## Schema
+
+```http
+GET /api/codex/schema?tipo=Actor
+```
+
+La respuesta v4.1 incluye:
+
+- `itemTypes`, `auxiliaryTypes`, `resourceTypes` y `storageTypes`;
+- `typeDefinitions` con metadata de presentación;
+- `fieldTypes` y `fields`;
+- `presetDefinitions`;
+- `baseFieldKeys` cuando se filtra por tipo;
+- `tipoAlias`;
+- `presets` y `legacyPresets` como compatibilidad.
+
+Una petición anónima recibe el catálogo del sistema. Una petición autenticada también incorpora los campos y presets personales de ese usuario.
+
+## Campos y presets
+
+### Resolver un campo
+
+```http
+POST /api/codex/fields/resolve
+Content-Type: application/json
+
+{
+  "tipo": "Actor",
+  "label": "Puesto",
+  "field_type": "texto"
+}
+```
+
+| Estado | Acción del cliente |
+| --- | --- |
+| `matched` | Reutilizar `exact.field_key` |
+| `candidates` | Mostrar o revisar candidatos |
+| `not_found` | Permitir crear el campo |
+
+### Crear un campo personal
+
+```http
+POST /api/codex/fields
+
+{
+  "field_key": "oficina",
+  "label": "Oficina",
+  "field_type": "texto",
+  "reason": "Distinguir la oficina operativa del cargo",
+  "item_types": ["Actor"]
+}
+```
+
+El backend normaliza la clave a `usr_oficina` y rechaza duplicados semánticos o conflictos de clave.
+
+### Crear un preset personal
+
+```http
+POST /api/codex/presets
+
+{
+  "preset_key": "investigacion_actor",
+  "label": "Investigación",
+  "description": "Campos que usamos al verificar personas",
+  "item_types": ["Actor"],
+  "field_keys": [
+    "sys_actor_cargo",
+    "usr_estado_de_verificacion"
+  ]
+}
+```
+
+La clave se normaliza al namespace `usr_preset_`.
+
+### Validar sin guardar
+
+```http
+POST /api/codex/validate-fields
+
+{
+  "tipo": "Actor",
+  "fields": {
+    "sys_actor_cargo": "Diputado",
+    "sys_actor_eje_social": { "value": 20 }
+  }
+}
+```
+
+Un shape inválido responde `400 INVALID_FIELD_SHAPE` con una corrección específica para el campo.
+
+### Leer y actualizar los campos de un ítem
+
+```http
+GET   /api/codex/universe-items/:id/fields
+PATCH /api/codex/universe-items/:id/fields
+```
+
+```json
+{
+  "fields": {
+    "sys_actor_cargo": "Diputado"
+  },
+  "preset_keys": ["sys_base_actor", "usr_preset_investigacion_actor"]
+}
+```
+
+La respuesta incluye `resolved_fields`. Usa `null` para vaciar un valor sin retirar su campo.
+
+## Sources
+
+```http
+GET   /api/codex/sources
+POST  /api/codex/sources
+GET   /api/codex/sources/:id
+PATCH /api/codex/sources/:id
+```
+
+Estas rutas son fachadas sobre `codex_universe_items` y fijan `tipo = Source`. El payload usa campos centrales, `fields` y `preset_keys`.
+
+```json
+{
+  "name": "Entrevista con funcionaria X",
+  "description": "Entrevista realizada para el caso de contrataciones",
+  "fields": {
+    "sys_source_kind": "Entrevista",
+    "sys_source_represented_item": { "id": "UUID_ACTOR" },
+    "sys_source_accessed_at": "2026-08-29",
+    "sys_source_confidentiality": "Reservada"
+  }
+}
+```
+
+## Perfiles
+
+```http
+GET   /api/codex/profiles
+POST  /api/codex/profiles
+GET   /api/codex/profiles/:id
+PATCH /api/codex/profiles/:id
+```
+
+Las rutas crean o filtran `Actor` con `is_profile = true`.
+
+```json
+{
+  "name": "Jóvenes que frecuentan Zona 1",
+  "description": "Suelen llegar por actividades culturales y cafés",
+  "fields": {
+    "sys_actor_profile_goal": "Entender cómo perciben la seguridad"
+  }
+}
+```
+
+## Simulaciones
+
+Rutas activas verificadas en v4.1:
+
+```http
+GET   /api/codex/simulations
+POST  /api/codex/simulations
+GET   /api/codex/simulations/:id
+PATCH /api/codex/simulations/:id
+POST  /api/codex/simulations/:id/actions
+GET   /api/codex/simulations/:id/report
+```
+
+Una simulación puede enlazar `context_item_ids` y `source_ids`, además de guardar snapshots de participantes y red. Las acciones utilizan un token de turno para tolerar reintentos sin duplicar el timeline.
+
+<Warning>
+  Rutas propuestas anteriormente como `/events`, `POST /report`, `/archive` o `/analysis` no forman parte de la superficie REST activa de v4.1. No las integres hasta que aparezcan en una revisión posterior.
+</Warning>
+
+## Errores comunes
+
+| Código | Significado |
+| --- | --- |
+| `401` | Falta autenticación o el token no es válido |
+| `404 ITEM_NOT_FOUND` | El registro no existe o pertenece a otro usuario |
+| `INVALID_FIELD_SHAPE` | El valor no cumple el tipo del campo |
+| `FIELD_ALREADY_EXISTS` | Debe reutilizarse una definición existente |
+| `FIELD_KEY_CONFLICT` | La clave ya está ocupada |
+
+<Note>
+  Un `404` también protege el aislamiento entre usuarios: la API no revela si el UUID pertenece a otra cuenta.
+</Note>

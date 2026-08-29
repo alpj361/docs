@@ -1,10 +1,12 @@
 ---
 title: "Inicio rápido"
-description: "Integra Codex v4 usando claves estables, validación y aislamiento por usuario."
+description: "Integra Codex v4.1 usando claves estables, validación y aislamiento por usuario."
 sidebarTitle: "Inicio rápido"
 ---
 
-# Inicio rápido con Codex v4
+# Inicio rápido con Codex v4.1
+
+Usa como base `https://mcp.standatpd.com`. Las operaciones privadas requieren `Authorization: Bearer <token>`.
 
 ## 1. Obtén el schema
 
@@ -12,7 +14,7 @@ sidebarTitle: "Inicio rápido"
 GET /api/codex/schema?tipo=Actor
 ```
 
-Usa `field_key` como identidad. El `label` es copy de interfaz y puede cambiar.
+La respuesta separa `itemTypes`, `auxiliaryTypes`, `resourceTypes` y `storageTypes`. Usa `field_key` como identidad. El `label` es texto de interfaz y puede cambiar.
 
 ## 2. Resuelve antes de crear
 
@@ -36,8 +38,24 @@ Cada valor debe cumplir el shape de su `field_type`. El backend rechaza shapes i
 PATCH /api/codex/universe-items/:id/fields
 ```
 
-Envía `fields` y, cuando aplique, `preset_keys`. La respuesta incluye `resolved_fields`.
+Envía `fields` y, cuando aplique, `preset_keys`. La respuesta incluye `resolved_fields`. No escribas `details` directamente desde un cliente nuevo.
 
-<Card title="Abrir referencia técnica" icon="book-open" href="/codex/tecnica/arquitectura">
-  Consulta el contrato completo de Codex v4.
-</Card>
+## 5. Conecta un agente por MCP
+
+Configura el endpoint Streamable HTTP:
+
+```text
+https://mcp.standatpd.com/mcp
+```
+
+El servidor responde con OAuth cuando falta una sesión. Un `GET /mcp` devuelve `405` por diseño; los mensajes MCP se envían con `POST`.
+
+<CardGroup cols={2}>
+  <Card title="Guía de uso" icon="compass" href="/codex/guia/que-es-codex">
+    Organiza una investigación dentro de Codex.
+  </Card>
+
+  <Card title="Referencia técnica" icon="book-open" href="/codex/tecnica/arquitectura">
+    Consulta el contrato completo de Codex v4.1.
+  </Card>
+</CardGroup>

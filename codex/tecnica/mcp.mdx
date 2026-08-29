@@ -1,29 +1,62 @@
 ---
-title: "Contrato MCP"
+title: "Servidor y contrato MCP"
 sidebarTitle: "MCP"
-description: "Secuencia y reglas para agentes que escriben en Codex v4."
+description: "Conexión OAuth, transporte Streamable HTTP y reglas agentic de Codex v4.1."
 ---
 
-La herramienta unificada `codex` expone estas acciones:
+## Endpoint público
+
+```text
+https://mcp.standatpd.com/mcp
+```
+
+El servidor usa MCP Streamable HTTP en modo stateless. Los mensajes JSON-RPC se envían mediante `POST /mcp`.
+
+| Petición | Resultado esperado |
+| --- | --- |
+| `GET /mcp` | `405 Method not allowed` |
+| `POST /mcp` sin sesión | `401` y desafío OAuth |
+| `POST /mcp` autenticado | Respuesta MCP |
+
+Un `405` al abrir la URL en el navegador no indica que el servidor esté caído. Un `404 Cannot POST /mcp` sí indica que la ruta no está registrada.
+
+## OAuth
+
+El servidor publica:
+
+```text
+/.well-known/oauth-authorization-server
+/.well-known/oauth-protected-resource
+/.well-known/oauth-protected-resource/mcp
+/oauth/register
+/oauth/authorize
+/oauth/token
+```
+
+El flujo usa authorization code, PKCE y registro dinámico de cliente. El usuario inicia sesión mediante Pulse Journal y aprueba el acceso. El cliente recibe un access token de corta duración y puede rotarlo con refresh token.
+
+## Herramienta `codex`
+
+Acciones principales del contrato v4.1:
 
 | Acción | Uso |
 | --- | --- |
-| `get_schema` | Obtener campos y presets |
+| `get_schema` | Obtener tipos, campos y presets del usuario |
 | `resolve_field` | Buscar una definición equivalente |
 | `create_field` | Crear un campo personal |
-| `create_preset` | Crear un preset |
-| `create_universe_item` | Crear un ítem con campos v4 |
+| `create_preset` | Crear un preset personal |
+| `search_universe` | Resolver referencias antes de escribir |
+| `create_universe_item` | Crear un ítem, auxiliar o Source permitido |
 | `update_universe_item` | Actualizar por claves estables |
 
 ## Secuencia requerida
 
-1. Ejecutar `get_schema`.
-2. Ejecutar `resolve_field`.
-3. Usar `create_field` solo si no existe.
-4. Escribir mediante `fields`.
-5. Si falla el shape, corregir usando `details.correction`.
-
-## Ejemplo
+1. Ejecuta `get_schema`.
+2. Busca el ítem antes de crearlo.
+3. Ejecuta `resolve_field` antes de crear un campo.
+4. Usa `create_field` solo con resultado `not_found`.
+5. Escribe mediante `fields` y `preset_keys`.
+6. Corrige shapes usando `details.correction`.
 
 ```json
 {
@@ -38,18 +71,29 @@ La herramienta unificada `codex` expone estas acciones:
 }
 ```
 
-Para `ref`, `refs`, `archivo` e `imagen`, el agente debe buscar primero mediante `search_universe` y usar UUID reales del mismo usuario.
+## Reglas para agentes
 
-`details` permanece en la definición MCP por compatibilidad. Los agentes v4 deben usar `fields`.
+- No inventes UUIDs. Obtén cada referencia de una búsqueda previa.
+- No crees sinónimos cuando el catálogo ya contiene el concepto.
+- `flag` fue eliminado. Usa campos `eje` con polos declarados en el schema.
+- `archivo` e `imagen` reciben referencias del Codex, no URLs libres.
+- `Source` es un ítem oficial y puede citarse o relacionarse.
+- `Post` y `Snippet` son auxiliares, aunque conserven `tipo`.
+- Un Perfil se crea como `Actor` con `is_profile = true`.
+- Cada operación se ejecuta con el usuario autenticado y no puede acceder a registros ajenos.
 
-## Campos personales
+## Simulaciones agentic
 
-Cuando un agente necesita un campo que no existe, debe declarar:
+La herramienta de simulación conserva el ciclo `crear` → `actuar` → `reporte`. El backend persiste la ejecución para que pueda consultarse después de un reinicio.
 
-- una `field_key` estable;
-- el `field_type`;
-- el `label` visible;
-- el `reason` de creación;
-- los `item_types` donde aplica.
+El agente debe:
 
-No debe crear sinónimos para un concepto ya resuelto por el catálogo del usuario.
+1. identificar qué participantes son actores reales, perfiles guardados o sintéticos;
+2. enlazar Sources y contexto mediante UUIDs verificados;
+3. completar todos los turnos indicados por el servidor;
+4. redactar conclusiones solo después de obtener el reporte;
+5. presentar resultados como simulados, con supuestos e incertidumbres.
+
+## Geografía
+
+El MCP debe distinguir `frontier`, área personalizada y punto/POI. Una coordenada no convierte por sí sola un Territorio en frontera. Consulta [Geografía y territorios](/codex/tecnica/geografia-y-territorios) antes de escribir shapes.
