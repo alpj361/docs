@@ -32,6 +32,7 @@
         "icon": "compass",
         "pages": [
           "codex/guia/que-es-codex",
+          "codex/guia/como-usar-codex",
           "codex/guia/campos-y-presets",
           "codex/guia/sources-y-perfiles",
           "codex/guia/simulaciones",

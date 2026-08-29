@@ -1,69 +1,66 @@
 ---
-title: "Campos y presets"
-sidebarTitle: "Campos y presets"
-description: "Adapta cada ficha a tu trabajo sin crear columnas duplicadas."
+title: "Campos y presets (plantillas)"
+sidebarTitle: "Campos y plantillas"
+description: "Adapta cada ficha con campos y presets, las plantillas de datos de Pulse Journal."
 ---
 
-Un campo guarda un dato. Un preset reúne campos útiles para un propósito.
+Un **campo** guarda un dato: fecha de nacimiento, cargo, tribunal, nivel de confianza o enlace.
 
-Por ejemplo, una ficha de Actor puede combinar:
+Un **preset** es una plantilla de campos. La app usa la palabra preset porque es el nombre compartido por la interfaz y el agente, pero puedes pensarlo como un **machote reutilizable**.
 
-- el preset base de Actor;
-- un preset personal de investigación;
-- un preset legal creado por tu equipo.
+## Ejemplos de presets
+
+- **Personal:** descripción, edad, país y fecha de nacimiento.
+- **Investigación periodística:** verificación, fuente principal, pendientes y nivel de confianza.
+- **Legal:** número de expediente, tribunal, etapa procesal y próxima audiencia.
+- **Académico:** autor, año, metodología, hallazgos y formato de cita.
+- **Marketing:** audiencia, necesidad, canal, mensaje y resultado observado.
+
+Una ficha puede combinar varios presets. Un Actor puede usar el preset Personal y también uno Legal si participa en un caso.
 
 ## Agregar campos
 
 Cuando pulses **Más campos**:
 
-1. busca el concepto por nombre;
-2. reutiliza un campo existente si describe lo mismo;
-3. revisa candidatos parecidos;
-4. crea uno nuevo solo si no existe;
-5. indica su label, tipo y motivo.
+1. Busca el concepto por su nombre cotidiano.
+2. Reutiliza un campo existente si significa lo mismo.
+3. Revisa las sugerencias parecidas.
+4. Crea uno nuevo únicamente si no existe.
+5. Escribe un nombre claro, el tipo de dato y por qué lo necesitas.
 
-El label es lo que ves. La identidad interna es `field_key`. Cambiar “Puesto” por “Cargo” no debe duplicar ni perder el dato.
+Por ejemplo, antes de crear “Profesión”, revisa si ya existe “Ocupación”. Esto evita que una misma investigación termine con dos campos que significan lo mismo.
 
 ## Crear un preset personal
 
-Un preset personal puede llamarse “Caso legal”, “Investigación periodística” o “Cobertura electoral”. Selecciona los campos que tu flujo necesita y los tipos de ítem donde aplica.
+Puedes crear una plantilla para tu propio trabajo, como:
 
-Aplicar un preset:
+- “Caso penal”;
+- “Investigación de corrupción”;
+- “Tesis universitaria”;
+- “Análisis de campaña”.
 
-- agrega el machote de campos;
-- no obliga a llenar datos desconocidos;
-- no bloquea otros presets;
-- no crea una copia de cada definición;
-- no borra datos si el preset cambia después.
+El preset reúne campos, pero no obliga a completar datos que todavía desconoces. Tampoco borra información si cambias la plantilla más adelante.
 
-## Cómo debería verse cada dato
+## Cómo se presenta cada dato
 
-| Tipo | Control recomendado |
+| Tipo de dato | Cómo debería verse |
 | --- | --- |
-| texto o párrafo | Campo de texto |
-| fecha o rango | Selector temporal |
-| booleano | Checkbox o switch |
-| dropdown | Lista de opciones del schema |
-| tags | Chips editables |
-| escala | Selector 1–5 |
-| eje | Deslizador entre dos polos visibles |
-| ref | Selector de un ítem con nombre y vista previa |
-| refs | Selector múltiple de ítems |
-| archivo o imagen | Tarjeta o preview del ítem referenciado |
-| geo | Mini mapa con coordenadas |
-| repetible | Tabla o lista de filas |
-| formula | Valor calculado de solo lectura |
+| Texto o párrafo | Campo para escribir |
+| Fecha o período | Calendario o selector temporal |
+| Sí / No | Casilla o interruptor |
+| Opciones | Lista con nombres legibles |
+| Etiquetas | Chips editables |
+| Escala | Selector de 1 a 5 |
+| Eje | Deslizador entre dos extremos visibles |
+| Referencia | Tarjeta de una persona, lugar, objeto o Source |
+| Varias referencias | Selector de varios elementos |
+| Archivo o imagen | Vista previa |
+| Coordenadas | Mini mapa |
+| Lista repetible | Filas que puedes añadir |
+| Fórmula | Resultado calculado de solo lectura |
 
-La interfaz no debería mostrar UUIDs crudos. Una referencia debe verse como una persona, lugar, archivo o Source reconocible.
+La interfaz debe mostrar nombres y vistas previas. No debería pedirte que trabajes con identificadores técnicos.
 
-## Presets disponibles
-
-La versión v4.1 incluye presets base para cada tipo, además de Perfil, Post y Snippet. Los presets temáticos legales, políticos y de investigación pueden crearse por usuario mientras se incorporan al catálogo del sistema.
-
-<Card title="Ver catálogo técnico" icon="list" href="/codex/tecnica/presets">
-  Consulta las claves activas y la taxonomía prevista.
+<Card title="Ver cómo usar Codex" icon="route" href="/codex/guia/como-usar-codex">
+  Aprende cuándo crear una ficha, guardar una nota o aplicar una plantilla.
 </Card>
-
-<Warning>
-  No guardes un campo usando su label como clave. La interfaz debe enviar el `field_key` entregado por el backend.
-</Warning>

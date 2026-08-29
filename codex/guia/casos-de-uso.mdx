@@ -1,56 +1,119 @@
 ---
-title: "Casos de uso"
+title: "Casos de uso por profesión"
 sidebarTitle: "Casos de uso"
-description: "Ejemplos para investigación periodística, análisis territorial, casos legales y política."
+description: "Ejemplos de Codex para abogados, periodistas, estudiantes y mercadólogos."
 ---
 
-## Investigación periodística
+Cada profesión puede usar los mismos elementos de Codex con un objetivo distinto. Los nombres de la app se conservan y su significado aparece entre paréntesis.
 
-1. Crea una **Historia** para la investigación.
-2. Agrega las **Personas** y **Entidades** involucradas.
-3. Construye la cronología con **Eventos**.
-4. Guarda documentos y evidencia como **Objetos**.
-5. Registra cada enlace, entrevista, libro o archivo como **Source**.
-6. Relaciona cada Source con la afirmación, evento u objeto que sustenta.
-7. Usa un preset personal de investigación para verificación, confianza y pendientes.
+## Abogado: organizar un caso
 
-Las herramientas agentic pueden buscar duplicados, enriquecer campos, relacionar ítems y producir resúmenes. Deben citar Sources y resolver campos antes de crearlos.
+**Objetivo:** reunir expediente, partes, fechas y evidencia sin perder la procedencia.
 
-## Analizar estratos socioeconómicos
+1. Crea una **Historia (Caso)** con el nombre del proceso.
+2. Agrega como **Actor (Persona)** a clientes, testigos, fiscales, jueces y contrapartes.
+3. Registra juzgados, empresas e instituciones como **Entidades (Organizaciones)**.
+4. Crea **Eventos (Hechos con fecha)** para audiencias, resoluciones, capturas y vencimientos.
+5. Guarda demandas, resoluciones, contratos y fotografías como **Objetos (Documentos o evidencia)**.
+6. Registra cada expediente, gaceta, entrevista o documento original como **Source (Fuente)**.
+7. Usa **Snippets (Notas breves)** para argumentos, contradicciones, citas y pendientes.
+8. Aplica un **preset Legal (plantilla)** para número de expediente, tribunal, etapa y próxima acción.
 
-1. Crea o asocia los **Territorios** relevantes.
-2. Distingue fronteras administrativas, áreas personalizadas y puntos.
-3. Agrega población, año, fuente, metodología e indicadores.
-4. Conserva cada dataset o estudio como Source.
-5. Compara territorios sin convertir una estimación territorial en atributo permanente de una persona.
+**Resultado:** una cronología navegable donde cada afirmación puede volver a su documento o testimonio original.
 
-Cuando el preset Socioeconómico aún no aparezca en el schema, crea uno personal con los campos que tu metodología realmente utilice.
+### Ejemplo de estructura
 
-## Representar un caso legal
+- **Historia:** Caso López contra Constructora Norte;
+- **Actor:** María López;
+- **Entidad:** Juzgado Tercero Civil;
+- **Evento:** Audiencia inicial del 18 de septiembre;
+- **Objeto:** Contrato firmado;
+- **Source:** Copia certificada del expediente;
+- **Snippet:** Revisar contradicción entre cláusulas 7 y 12.
 
-1. Crea una **Historia** para el caso.
-2. Representa audiencias, resoluciones, capturas y plazos como **Eventos**.
-3. Relaciona Actores y Entidades con su rol procesal.
-4. Guarda expedientes, resoluciones y evidencia como **Objetos**.
-5. Registra tribunal, gaceta, entrevista o documento original como **Sources**.
-6. Usa campos de estado, última revisión y nivel de verificación.
+## Periodista: desarrollar una investigación
 
-## Análisis político
+**Objetivo:** conectar personas, documentos, hechos y fuentes verificables.
 
-1. Crea una **Historia** para el tema o escenario.
-2. Relaciona Actores, partidos, instituciones y Territorios.
-3. Guarda elecciones, nombramientos, votaciones y protestas como Eventos.
-4. Usa campos `eje` únicamente cuando el schema defina sus polos.
-5. Separa posición declarada, análisis e inferencia.
-6. Cita discursos, programas, votaciones y entrevistas mediante Sources.
+1. Abre una **Historia (Investigación)** con una pregunta clara.
+2. Guarda cada pista rápida como **Snippet (Nota breve)**.
+3. Crea **Actores (Personas)** y **Entidades (Organizaciones)** cuando una pista sea relevante.
+4. Construye la cronología con **Eventos (Hechos)**.
+5. Guarda contratos, bases de datos, fotografías o expedientes como **Objetos (Evidencia)**.
+6. Registra entrevistas, enlaces, libros y archivos como **Sources (Fuentes)**.
+7. Relaciona cada Source con la afirmación o Evento que respalda.
+8. Aplica un preset de Investigación para verificación, confianza, derecho de respuesta y pendientes.
 
-## Explorar una audiencia
+**Resultado:** la investigación conserva tanto la narrativa como la evidencia que permite comprobarla.
 
-1. Crea Perfiles como “jóvenes urbanos”, “comerciantes fronterizos” o “familias usuarias del transporte público”.
-2. Documenta qué sabes, qué quieres entender y qué Sources sostienen cada perfil.
-3. Ejecuta una Simulación con actores reales, perfiles o participantes sintéticos.
-4. Revisa supuestos e incertidumbres antes de usar el resultado.
+### Ejemplo de estructura
+
+- **Snippet:** Empresa vinculada recibió tres contratos;
+- **Entidad:** Servicios del Centro, S.A.;
+- **Eventos:** Adjudicaciones de enero, marzo y junio;
+- **Sources:** Portal de compras y entrevista con exfuncionario;
+- **Historia:** Contrataciones del municipio.
+
+## Estudiante: preparar una tesis o proyecto
+
+**Objetivo:** ordenar lecturas, autores, conceptos, citas y trabajo de campo.
+
+1. Crea una **Historia (Tesis o proyecto)** con tu pregunta de investigación.
+2. Registra autoras, investigadores o entrevistados como **Actores (Personas)**.
+3. Guarda universidades, revistas y organizaciones como **Entidades**.
+4. Registra libros, artículos, entrevistas y datasets como **Sources (Fuentes)**.
+5. Usa **Snippets (Notas breves)** para citas, ideas propias y preguntas pendientes.
+6. Guarda cuestionarios, tablas y documentos como **Objetos**.
+7. Usa **Eventos** para fechas de trabajo de campo, entregas o cambios importantes.
+8. Aplica un preset Académico para autor, año, metodología, hallazgos y cita.
+
+**Resultado:** cada nota mantiene visible si es una idea propia, una cita textual o una conclusión respaldada por una fuente.
+
+### Ejemplo de estructura
+
+- **Historia:** Tesis sobre movilidad estudiantil;
+- **Source:** Encuesta universitaria 2025;
+- **Snippet:** “El tiempo promedio de traslado es 74 minutos”;
+- **Territorio:** Área metropolitana;
+- **Objeto:** Base de respuestas;
+- **Evento:** Trabajo de campo de febrero a abril.
+
+## Mercadólogo: entender una audiencia o campaña
+
+**Objetivo:** conectar audiencias, territorios, mensajes, canales y resultados sin confundir perfiles con personas reales.
+
+1. Crea una **Historia (Estudio o campaña)**.
+2. Guarda clientes o voceros reales como **Actores (Personas)**.
+3. Crea **Perfiles** para representar audiencias, como “madres primerizas urbanas” o “emprendedores que venden por redes”.
+4. Relaciona cada Perfil con **Territorios (Lugares o zonas)** relevantes.
+5. Registra lanzamientos, campañas y cambios de precio como **Eventos**.
+6. Guarda encuestas, creatividades, reportes y resultados como **Objetos**.
+7. Registra estudios, entrevistas y analítica exportada como **Sources (Fuentes)**.
+8. Usa **Snippets (Notas breves)** para hipótesis, frases de clientes y aprendizajes.
+9. Aplica un preset de Marketing para necesidad, canal, mensaje, métrica y resultado.
+
+**Resultado:** puedes comparar lo que la audiencia dijo, lo que el equipo asumió y lo que realmente ocurrió.
+
+### Ejemplo de estructura
+
+- **Historia:** Campaña de regreso a clases;
+- **Perfil:** Madres con hijos en primaria;
+- **Territorio:** Municipios del área metropolitana;
+- **Evento:** Lanzamiento del 5 de enero;
+- **Objeto:** Reporte de conversiones;
+- **Source:** Entrevistas y analítica de campaña;
+- **Snippet:** El precio importa menos cuando la entrega es inmediata.
+
+## Regla común para los cuatro casos
+
+Distingue siempre:
+
+- **hecho:** tiene evidencia y Source;
+- **nota:** es un Snippet que todavía puede necesitar verificación;
+- **supuesto:** debe marcarse como tal;
+- **Perfil:** representa un tipo de persona, no un individuo;
+- **Simulación:** explora escenarios, no predice el futuro.
 
 <Note>
-  Codex organiza evidencia y relaciones. La calidad del resultado depende de la calidad, procedencia y actualización de los datos que registres.
+  Codex no reemplaza tu criterio profesional. Te ayuda a conservar contexto, relaciones y procedencia para que tu trabajo sea más sencillo de revisar y explicar.
 </Note>
