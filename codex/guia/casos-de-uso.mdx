@@ -1,0 +1,119 @@
+---
+title: "Casos de uso por profesión"
+sidebarTitle: "Casos de uso"
+description: "Ejemplos de Codex para abogados, periodistas, estudiantes y mercadólogos."
+---
+
+Cada profesión puede usar los mismos elementos de Codex con un objetivo distinto. Los nombres de la app se conservan y su significado aparece entre paréntesis.
+
+## Abogado: organizar un caso
+
+**Objetivo:** reunir expediente, partes, fechas y evidencia sin perder la procedencia.
+
+1. Crea una **Historia (Caso)** con el nombre del proceso.
+2. Agrega como **Actor (Persona)** a clientes, testigos, fiscales, jueces y contrapartes.
+3. Registra juzgados, empresas e instituciones como **Entidades (Organizaciones)**.
+4. Crea **Eventos (Hechos con fecha)** para audiencias, resoluciones, capturas y vencimientos.
+5. Guarda demandas, resoluciones, contratos y fotografías como **Objetos (Documentos o evidencia)**.
+6. Registra cada expediente, gaceta, entrevista o documento original como **Source (Fuente)**.
+7. Usa **Snippets (Notas breves)** para argumentos, contradicciones, citas y pendientes.
+8. Aplica un **preset Legal (plantilla)** para número de expediente, tribunal, etapa y próxima acción.
+
+**Resultado:** una cronología navegable donde cada afirmación puede volver a su documento o testimonio original.
+
+### Ejemplo de estructura
+
+- **Historia:** Caso López contra Constructora Norte;
+- **Actor:** María López;
+- **Entidad:** Juzgado Tercero Civil;
+- **Evento:** Audiencia inicial del 18 de septiembre;
+- **Objeto:** Contrato firmado;
+- **Source:** Copia certificada del expediente;
+- **Snippet:** Revisar contradicción entre cláusulas 7 y 12.
+
+## Periodista: desarrollar una investigación
+
+**Objetivo:** conectar personas, documentos, hechos y fuentes verificables.
+
+1. Abre una **Historia (Investigación)** con una pregunta clara.
+2. Guarda cada pista rápida como **Snippet (Nota breve)**.
+3. Crea **Actores (Personas)** y **Entidades (Organizaciones)** cuando una pista sea relevante.
+4. Construye la cronología con **Eventos (Hechos)**.
+5. Guarda contratos, bases de datos, fotografías o expedientes como **Objetos (Evidencia)**.
+6. Registra entrevistas, enlaces, libros y archivos como **Sources (Fuentes)**.
+7. Relaciona cada Source con la afirmación o Evento que respalda.
+8. Aplica un preset de Investigación para verificación, confianza, derecho de respuesta y pendientes.
+
+**Resultado:** la investigación conserva tanto la narrativa como la evidencia que permite comprobarla.
+
+### Ejemplo de estructura
+
+- **Snippet:** Empresa vinculada recibió tres contratos;
+- **Entidad:** Servicios del Centro, S.A.;
+- **Eventos:** Adjudicaciones de enero, marzo y junio;
+- **Sources:** Portal de compras y entrevista con exfuncionario;
+- **Historia:** Contrataciones del municipio.
+
+## Estudiante: preparar una tesis o proyecto
+
+**Objetivo:** ordenar lecturas, autores, conceptos, citas y trabajo de campo.
+
+1. Crea una **Historia (Tesis o proyecto)** con tu pregunta de investigación.
+2. Registra autoras, investigadores o entrevistados como **Actores (Personas)**.
+3. Guarda universidades, revistas y organizaciones como **Entidades**.
+4. Registra libros, artículos, entrevistas y datasets como **Sources (Fuentes)**.
+5. Usa **Snippets (Notas breves)** para citas, ideas propias y preguntas pendientes.
+6. Guarda cuestionarios, tablas y documentos como **Objetos**.
+7. Usa **Eventos** para fechas de trabajo de campo, entregas o cambios importantes.
+8. Aplica un preset Académico para autor, año, metodología, hallazgos y cita.
+
+**Resultado:** cada nota mantiene visible si es una idea propia, una cita textual o una conclusión respaldada por una fuente.
+
+### Ejemplo de estructura
+
+- **Historia:** Tesis sobre movilidad estudiantil;
+- **Source:** Encuesta universitaria 2025;
+- **Snippet:** “El tiempo promedio de traslado es 74 minutos”;
+- **Territorio:** Área metropolitana;
+- **Objeto:** Base de respuestas;
+- **Evento:** Trabajo de campo de febrero a abril.
+
+## Mercadólogo: entender una audiencia o campaña
+
+**Objetivo:** conectar audiencias, territorios, mensajes, canales y resultados sin confundir perfiles con personas reales.
+
+1. Crea una **Historia (Estudio o campaña)**.
+2. Guarda clientes o voceros reales como **Actores (Personas)**.
+3. Crea **Perfiles** para representar audiencias, como “madres primerizas urbanas” o “emprendedores que venden por redes”.
+4. Relaciona cada Perfil con **Territorios (Lugares o zonas)** relevantes.
+5. Registra lanzamientos, campañas y cambios de precio como **Eventos**.
+6. Guarda encuestas, creatividades, reportes y resultados como **Objetos**.
+7. Registra estudios, entrevistas y analítica exportada como **Sources (Fuentes)**.
+8. Usa **Snippets (Notas breves)** para hipótesis, frases de clientes y aprendizajes.
+9. Aplica un preset de Marketing para necesidad, canal, mensaje, métrica y resultado.
+
+**Resultado:** puedes comparar lo que la audiencia dijo, lo que el equipo asumió y lo que realmente ocurrió.
+
+### Ejemplo de estructura
+
+- **Historia:** Campaña de regreso a clases;
+- **Perfil:** Madres con hijos en primaria;
+- **Territorio:** Municipios del área metropolitana;
+- **Evento:** Lanzamiento del 5 de enero;
+- **Objeto:** Reporte de conversiones;
+- **Source:** Entrevistas y analítica de campaña;
+- **Snippet:** El precio importa menos cuando la entrega es inmediata.
+
+## Regla común para los cuatro casos
+
+Distingue siempre:
+
+- **hecho:** tiene evidencia y Source;
+- **nota:** es un Snippet que todavía puede necesitar verificación;
+- **supuesto:** debe marcarse como tal;
+- **Perfil:** representa un tipo de persona, no un individuo;
+- **Simulación:** explora escenarios, no predice el futuro.
+
+<Note>
+  Codex no reemplaza tu criterio profesional. Te ayuda a conservar contexto, relaciones y procedencia para que tu trabajo sea más sencillo de revisar y explicar.
+</Note>

@@ -1,0 +1,93 @@
+---
+title: "Sources, Perfiles y Simulaciones"
+sidebarTitle: "Sources y Simulaciones"
+description: "Contrato v4.1 para fuentes, perfiles no reales y ejecuciones persistentes."
+---
+
+## Source
+
+`Source` es un ítem oficial. Representa el origen consultable de información utilizada en una investigación.
+
+Puede ser persona, web, archivo, libro, documento, dataset, entrevista, publicación u otra fuente. Su preset base es `sys_base_source`.
+
+Campos principales:
+
+| Campo | Tipo | Uso |
+| --- | --- | --- |
+| `sys_source_kind` | dropdown | Clase de fuente |
+| `sys_source_represented_item` | ref | Actor, Objeto, Post u otro registro representado |
+| `sys_source_authors` | refs | Autores conocidos |
+| `sys_source_publisher` | ref | Editorial, medio o entidad emisora |
+| `sys_source_published_at` | fecha | Fecha de publicación |
+| `sys_source_accessed_at` | fecha | Fecha de consulta |
+| `sys_source_url` | link | URL original |
+| `sys_source_file` | archivo | Referencia a un archivo del Codex |
+| `sys_source_identifier` | id | ISBN, DOI u otro identificador |
+| `sys_source_citation` | parrafo | Cita reutilizable |
+| `sys_source_locator` | texto | Página, sección, minuto o capítulo |
+| `sys_source_excerpt` | parrafo | Fragmento relevante |
+| `sys_source_verification_status` | dropdown | Verificada, parcial, pendiente o descartada |
+| `sys_source_reliability` | escala | Confiabilidad 1–5 |
+| `sys_source_confidentiality` | dropdown | Pública, reservada, confidencial o anónima |
+
+Un Actor puede actuar como fuente sin cambiar de tipo. Crea un Source que represente la entrevista, declaración o contexto y enlázalo al Actor mediante `sys_source_represented_item`.
+
+La metadata de `typeDefinitions` indica:
+
+```json
+{
+  "tipo": "Source",
+  "typeClass": "official_item",
+  "presentation": {
+    "card": "source",
+    "createModal": "source",
+    "detailModal": "source",
+    "primaryAction": "cite"
+  }
+}
+```
+
+## Perfil
+
+Un Perfil representa un tipo de persona o grupo, no un individuo real. Se almacena como Actor con `is_profile = true` y usa `sys_profile_actor`.
+
+Las tres preguntas iniciales son:
+
+| Pregunta | Campo |
+| --- | --- |
+| ¿A quién representa? | `sys_actor_profile_target` |
+| ¿Qué quieres entender? | `sys_actor_profile_goal` |
+| ¿Qué sabes de este perfil? | `sys_actor_profile_known` |
+
+El schema también ofrece edad aproximada, territorios, motivaciones, preocupaciones, hábitos, necesidades, Sources, supuestos, incertidumbres y fecha de revisión.
+
+Los datos inferidos deben distinguir evidencia, supuesto e incertidumbre. Un participante sintético creado durante una simulación no se convierte automáticamente en Perfil.
+
+## Simulacion
+
+Una Simulación guarda estado operativo, participantes, red, acciones, métricas y análisis. No es un ítem de `codex_universe_items`.
+
+Participantes posibles:
+
+| Origen | Significado |
+| --- | --- |
+| `actor` | Persona real guardada como Actor |
+| `profile` | Actor con `is_profile = true` |
+| `synthetic` | Participante efímero de esa ejecución |
+
+Cada ejecución conserva:
+
+- UUID y `user_id`;
+- escenario y configuración;
+- versión del motor;
+- snapshots de participantes y red;
+- referencias a contexto y Sources;
+- estado de ejecución;
+- timeline de eventos;
+- métricas, reporte y análisis.
+
+El token de turno hace idempotentes los reintentos. Una repetición del mismo turno no debe crear acciones duplicadas.
+
+<Warning>
+  Una simulación no convierte una inferencia en hecho y no modifica automáticamente los ítems que utilizó. La interfaz debe mostrar versión del motor, fecha, Sources, participantes, supuestos e incertidumbres.
+</Warning>

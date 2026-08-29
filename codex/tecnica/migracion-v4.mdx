@@ -1,22 +1,21 @@
 ---
 title: "Migración y compatibilidad"
-sidebarTitle: "Migración v4"
-description: "Cambios, métricas y puente temporal con clientes v3."
+sidebarTitle: "Migración v4.1"
+description: "Cambios v4 y v4.1, métricas y puente temporal con clientes anteriores."
 ---
 
-## Cambios introducidos
+## De labels a claves estables
+
+La migración v4 introdujo:
 
 - `field_keys` y `preset_keys` en `codex_universe_items`;
-- tablas `codex_user_fields` y `codex_user_presets`;
-- claves de sistema `sys_...`;
-- claves personales `usr_...`;
+- `codex_user_fields` y `codex_user_presets`;
+- claves `sys_...` y `usr_...`;
 - validación estricta REST y MCP;
-- eliminación de `flag`;
-- representación de espectros mediante `eje`.
+- eliminación de la propiedad global `flag`;
+- espectros mediante campos `eje`.
 
-## Resultado de la migración inicial
-
-Migración ejecutada el 25 de agosto de 2026:
+Resultado inicial del 25 de agosto de 2026:
 
 | Métrica | Resultado |
 | --- | --: |
@@ -26,33 +25,50 @@ Migración ejecutada el 25 de agosto de 2026:
 | Asociaciones campo–ítem | 1,443 |
 | Cambios pendientes en el segundo dry run | 0 |
 
-El campo histórico `Oficina` de Actor se registró como `usr_oficina`. Los valores `flag` no se migraron a ejes porque no existe una correspondencia semántica segura.
+El campo histórico `Oficina` de Actor se registró como `usr_oficina`. Los valores `flag` no se transformaron en ejes porque no existía una correspondencia semántica segura.
+
+## Cambios v4.1
+
+- `Source` se convirtió en el octavo ítem oficial.
+- `Fuente` ahora se normaliza a `Source`, no a `Objeto`.
+- `Post` y `Snippet` se clasifican como auxiliares.
+- `Actor.is_profile` distingue Perfiles de personas reales.
+- `Simulacion` se publica como recurso separado.
+- Las simulaciones y sus eventos se conservan en Supabase.
+- El schema expone `typeDefinitions` y metadata de presentación.
+- El endpoint MCP Streamable HTTP y su OAuth forman parte del servicio desplegado.
+
+No se reclasificaron automáticamente Objetos históricos como Sources. La decisión requiere contexto editorial.
 
 ## Compatibilidad temporal
 
 - El schema conserva `presets` y `legacyPresets`.
-- v4 escribe mediante `fields`.
-- Los valores se reflejan en `details` para clientes v3.
-- La lectura infiere claves conocidas desde `details`.
-- Un valor histórico inválido aparece como `legacy_invalid`.
+- v4.1 escribe mediante `fields`.
+- Los valores pueden reflejarse en `details` para clientes anteriores.
+- La lectura puede inferir claves conocidas desde `details`.
+- Un valor histórico incompatible aparece con un estado legacy.
+- `Post` y `Snippet` conservan su valor físico en `tipo`.
 
-| Tipo | Clave legacy | Label vigente |
-| --- | --- | --- |
-| Actor | `profesion` | Profesión |
-| Territorio | `lider` | Quién controla |
-| Evento | `resultado` | Resultado / desenlace |
+| Entrada legacy | Resultado actual |
+| --- | --- |
+| `Concepto` | `Historia` |
+| `Documento` | `Objeto` |
+| `Evidencia` | `Objeto` |
+| `Biblioteca` | `Historia` |
+| `Fuente` | `Source` |
 
-## Frontend móvil pendiente
+## Reglas para clientes
 
-La app móvil aún mantiene partes de v3. Su adaptación deberá:
+1. Indexa campos por `field_key`.
+2. Consume las cuatro listas de tipos por separado.
+3. Construye formularios desde `presetDefinitions` y `fields`.
+4. Resuelve antes de crear campos personales.
+5. Valida antes de guardar.
+6. Lee `resolved_fields`.
+7. Retira `flag` de UI, payloads y fallbacks.
+8. Presenta Source y Simulacion con sus componentes diferenciados.
+9. No muestres UUIDs crudos: resuelve referencias a nombres y vistas previas.
 
-1. indexar por `field_key`;
-2. consumir `fields`, `presetDefinitions` y `baseFieldKeys`;
-3. resolver antes de crear campos;
-4. validar mediante `/validate-fields`;
-5. guardar mediante el PATCH v4;
-6. consumir `resolved_fields`;
-7. retirar `flag` de UI y payloads;
-8. persistir los nueve tipos canónicos.
-
-Esta documentación no modifica todavía la interfaz móvil.
+<Warning>
+  Los clientes que todavía muestran nueve “ítems canónicos” mezclando Post y Snippet están usando el contrato anterior.
+</Warning>
