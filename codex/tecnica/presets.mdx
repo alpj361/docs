@@ -1,0 +1,87 @@
+---
+title: "Catálogo de presets"
+sidebarTitle: "Presets"
+description: "Presets activos, presets personales y catálogo temático previsto."
+---
+
+Un preset es un machote de campos. No crea un tipo nuevo y un ítem puede combinar varios.
+
+## Presets activos en v4.1
+
+El schema desplegado publica 11 presets del sistema:
+
+| Clave | Aplicación |
+| --- | --- |
+| `sys_base_actor` | Actor |
+| `sys_base_entidad` | Entidad |
+| `sys_base_territorio` | Territorio |
+| `sys_base_evento` | Evento |
+| `sys_base_historia` | Historia |
+| `sys_base_objeto` | Objeto |
+| `sys_base_artefacto` | Artefacto |
+| `sys_base_source` | Source |
+| `sys_base_post` | Post auxiliar |
+| `sys_base_snippet` | Snippet auxiliar |
+| `sys_profile_actor` | Actor con `is_profile = true` |
+
+Consulta `presetDefinitions` en cada sesión autenticada. El usuario también puede tener presets `usr_preset_*` que no aparecen en una petición anónima.
+
+## Combinación
+
+1. Toma los presets compatibles con el tipo.
+2. Une sus `field_keys` en el orden del schema.
+3. Elimina duplicados por `field_key`, no por label.
+4. Agrega los campos que el ítem ya tenga asociados.
+5. Renderiza cada control según `field_type` y `config`.
+6. Persiste las claves aplicadas en `preset_keys`.
+
+Cambiar un preset no borra valores históricos. Retirar `preset_keys` elimina la procedencia, no los campos ya incorporados.
+
+## Presets personales
+
+Un usuario puede crear un preset para su propio flujo legal, político o periodístico:
+
+```json
+{
+  "preset_key": "caso_legal_actor",
+  "label": "Caso legal",
+  "description": "Campos para personas vinculadas a expedientes",
+  "item_types": ["Actor"],
+  "field_keys": [
+    "sys_actor_situacion_legal",
+    "usr_rol_procesal",
+    "usr_ultima_revision"
+  ]
+}
+```
+
+Los campos nuevos deben resolverse y registrarse antes de agregarlos al preset.
+
+## Catálogo temático previsto
+
+La siguiente taxonomía está aprobada como dirección de producto, pero sus claves `sys_preset_*` solo se consideran activas cuando aparezcan en el schema.
+
+| Tipo | Presets temáticos previstos |
+| --- | --- |
+| Actor | Personal, Profesional, Política, Legal, Investigación |
+| Entidad | Institucional, Política, Corporativo, Legal y regulatorio, Investigación |
+| Territorio | Geográfico, Administrativo, Punto/POI, Socioeconómico, Control o jurisdicción |
+| Evento | Cronología, Política, Legal, Investigación |
+| Historia | Marco o narrativa, Investigación periodística, Caso legal, Análisis político |
+| Objeto | Identificación, Documento, Evidencia, Dataset, Multimedia |
+| Artefacto | Función, Software o sistema, Infraestructura, Método o protocolo, Investigación |
+| Source | Fuente base; variantes guiadas por `sys_source_kind` |
+
+### Personal para Actor
+
+“Personal” representa datos básicos: descripción, fecha de nacimiento, edad derivada, país, nacionalidad, lugar de nacimiento, residencia, estado e imagen. Los datos sensibles como dirección exacta, teléfono o correo personal no deberían aparecer por defecto en esta vista.
+
+### Investigación, política y legal
+
+- **Investigación**: relevancia, estado de verificación, confianza, Sources, evidencia, pendientes y última revisión.
+- **Política**: partido, cargo público, jurisdicción, alianzas, posiciones y ejes con polos definidos.
+- **Legal**: rol procesal, expediente o caso, autoridad, medidas, sanciones, resoluciones y fechas de revisión.
+
+<Warning>
+  No envíes una clave `sys_preset_*` prevista si el schema no la devuelve. Mientras tanto, crea un preset personal equivalente.
+</Warning>

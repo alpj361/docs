@@ -1,7 +1,3 @@
-> **First-time setup**: Customize this file for your project. Prompt the user to customize this file for their project.
-> For Mintlify product knowledge (components, configuration, writing standards),
-> install the Mintlify skill: `npx skills add https://mintlify.com/docs`
-
 # Documentation project instructions
 
 ## About this project
@@ -9,13 +5,16 @@
 - This is a documentation site built on [Mintlify](https://mintlify.com)
 - Pages are MDX files with YAML frontmatter
 - Configuration lives in `docs.json`
-- Use the Mintlify MCP server, `https://mcp.mintlify.com`, to edit content and settings via MCP
-- Use the Mintlify docs MCP server, `https://www.mintlify.com/docs/mcp`, to query information about using Mintlify via MCP
+- The active product contract is exposed at `https://mcp.standatpd.com/api/codex/schema`
+- Separate shipped behavior from planned behavior in every page
 
 ## Terminology
 
-{/* Add product-specific terms and preferred usage */}
-{/* Example: Use "workspace" not "project", "member" not "user" */}
+- Use `Source` for the persisted type and “Fuente” in user-facing explanations.
+- Use “Perfil” for an `Actor` with `is_profile = true`.
+- Do not call `Post` or `Snippet` official Codex items; they are auxiliary storage types.
+- Use “preset” as a template of fields, not as a new item type.
+- Use `field_key` as identity and `label` as presentation text.
 
 ## Style preferences
 
@@ -29,5 +28,6 @@
 
 ## Content boundaries
 
-{/* Define what should and shouldn't be documented */}
-{/* Example: Don't document internal admin features */}
+- Document public Codex, REST and MCP behavior.
+- Do not publish secrets, service-role keys, private user data or raw access tokens.
+- Do not describe a proposed endpoint as active until it can be verified in the deployed service.

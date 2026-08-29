@@ -1,0 +1,69 @@
+---
+title: "Campos y presets"
+sidebarTitle: "Campos y presets"
+description: "Adapta cada ficha a tu trabajo sin crear columnas duplicadas."
+---
+
+Un campo guarda un dato. Un preset reúne campos útiles para un propósito.
+
+Por ejemplo, una ficha de Actor puede combinar:
+
+- el preset base de Actor;
+- un preset personal de investigación;
+- un preset legal creado por tu equipo.
+
+## Agregar campos
+
+Cuando pulses **Más campos**:
+
+1. busca el concepto por nombre;
+2. reutiliza un campo existente si describe lo mismo;
+3. revisa candidatos parecidos;
+4. crea uno nuevo solo si no existe;
+5. indica su label, tipo y motivo.
+
+El label es lo que ves. La identidad interna es `field_key`. Cambiar “Puesto” por “Cargo” no debe duplicar ni perder el dato.
+
+## Crear un preset personal
+
+Un preset personal puede llamarse “Caso legal”, “Investigación periodística” o “Cobertura electoral”. Selecciona los campos que tu flujo necesita y los tipos de ítem donde aplica.
+
+Aplicar un preset:
+
+- agrega el machote de campos;
+- no obliga a llenar datos desconocidos;
+- no bloquea otros presets;
+- no crea una copia de cada definición;
+- no borra datos si el preset cambia después.
+
+## Cómo debería verse cada dato
+
+| Tipo | Control recomendado |
+| --- | --- |
+| texto o párrafo | Campo de texto |
+| fecha o rango | Selector temporal |
+| booleano | Checkbox o switch |
+| dropdown | Lista de opciones del schema |
+| tags | Chips editables |
+| escala | Selector 1–5 |
+| eje | Deslizador entre dos polos visibles |
+| ref | Selector de un ítem con nombre y vista previa |
+| refs | Selector múltiple de ítems |
+| archivo o imagen | Tarjeta o preview del ítem referenciado |
+| geo | Mini mapa con coordenadas |
+| repetible | Tabla o lista de filas |
+| formula | Valor calculado de solo lectura |
+
+La interfaz no debería mostrar UUIDs crudos. Una referencia debe verse como una persona, lugar, archivo o Source reconocible.
+
+## Presets disponibles
+
+La versión v4.1 incluye presets base para cada tipo, además de Perfil, Post y Snippet. Los presets temáticos legales, políticos y de investigación pueden crearse por usuario mientras se incorporan al catálogo del sistema.
+
+<Card title="Ver catálogo técnico" icon="list" href="/codex/tecnica/presets">
+  Consulta las claves activas y la taxonomía prevista.
+</Card>
+
+<Warning>
+  No guardes un campo usando su label como clave. La interfaz debe enviar el `field_key` entregado por el backend.
+</Warning>

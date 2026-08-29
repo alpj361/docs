@@ -1,55 +1,39 @@
-# Mintlify Starter Kit
+# Documentación de Pulse Journal
 
-Use the starter kit to get your docs deployed and ready to customize.
+Este repositorio publica la documentación técnica y de uso de Pulse Journal mediante Mintlify.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+La sección Codex cubre:
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+- contrato v4.1 y aislamiento por usuario;
+- campos personalizados y presets;
+- Sources, Perfiles y Simulaciones;
+- tipos y shapes de campo;
+- API REST y servidor MCP;
+- territorios, fronteras, áreas y puntos.
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+## Vista previa local
 
-## AI-assisted writing
-
-Set up your AI coding tool to work with Mintlify:
+Instala la CLI de Mintlify y ejecuta el sitio desde la raíz:
 
 ```bash
-npx skills add https://mintlify.com/docs
-```
-
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
-
-See the [AI tools guides](/ai-tools) for tool-specific setup.
-
-## Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
-
-```
 npm i -g mint
-```
-
-Run the following command at the root of your documentation, where your `docs.json` is located:
-
-```
 mint dev
 ```
 
-View your local preview at `http://localhost:3000`.
+La vista previa queda disponible normalmente en `http://localhost:3000`.
 
-## Publishing changes
+## Publicación
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+Mintlify despliega desde la rama `main`. Antes de publicar:
 
-## Need help?
+1. valida que `docs.json` incluya cada página nueva;
+2. revisa enlaces internos y frontmatter;
+3. confirma que las páginas distingan contrato vigente de trabajo previsto;
+4. fusiona la rama documental en `main`.
 
-### Troubleshooting
+## Fuentes de verdad
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
-
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+- Schema activo: `GET https://mcp.standatpd.com/api/codex/schema`
+- Backend: ExtractorW
+- Persistencia: Supabase con ownership y RLS por usuario
+- Transporte MCP: `https://mcp.standatpd.com/mcp`

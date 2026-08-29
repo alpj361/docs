@@ -1,43 +1,64 @@
 ---
-title: "Tipos de ítem"
+title: "Tipos de ítem y recursos"
 sidebarTitle: "Tipos de ítem"
-description: "Nueve tipos canónicos y aliases de compatibilidad."
+description: "Ocho ítems oficiales, dos auxiliares, Perfiles y Simulaciones."
 ---
 
-## Tipos canónicos
+El schema v4.1 publica cuatro listas distintas. No las combines en un único enum de interfaz.
 
-| Tipo | Representa |
+## Ítems oficiales
+
+| Tipo persistido | Representa |
 | --- | --- |
-| `Actor` | Persona o individuo |
-| `Entidad` | Organización, institución, empresa o partido |
-| `Territorio` | Lugar o ámbito geográfico |
+| `Actor` | Persona o individuo real |
+| `Entidad` | Organización, institución, empresa, partido o colectivo |
+| `Territorio` | Lugar, punto, área o frontera geográfica |
 | `Evento` | Suceso situado en el tiempo |
-| `Historia` | Narrativa, marco, ley, caso o concepto |
-| `Objeto` | Evidencia, documento o cosa concreta |
+| `Historia` | Narrativa, investigación, caso, ley o marco de análisis |
+| `Objeto` | Evidencia, documento, dataset u objeto concreto |
 | `Artefacto` | Sistema, herramienta, método o infraestructura |
-| `Snippet` | Nota, cita o fragmento interno |
-| `Post` | Publicación de una plataforma |
+| `Source` | Origen consultable y citable de información |
 
-## Aliases principales
+Estos valores aparecen en `itemTypes` y tienen `typeClass = official_item`.
 
-| Entrada | Tipo canónico |
+`Source` comparte el núcleo de un ítem oficial, pero su metadata de presentación indica tarjeta y modales propios, con `primaryAction = cite`.
+
+## Tipos auxiliares
+
+| Tipo persistido | Uso |
 | --- | --- |
-| persona, funcionario, político | `Actor` |
-| organización, empresa, partido | `Entidad` |
-| lugar, municipio, departamento, país | `Territorio` |
-| concepto, narrativa, ley, caso | `Historia` |
-| suceso, hecho | `Evento` |
-| evidencia, documento, expediente | `Objeto` |
-| herramienta, sistema | `Artefacto` |
-| nota, fragmento, cita | `Snippet` |
-| publicación, tweet | `Post` |
+| `Post` | Publicación capturada desde una plataforma |
+| `Snippet` | Nota, cita o fragmento interno |
 
-## Mapeo legacy
+Ambos aparecen en `auxiliaryTypes`. Siguen identificándose mediante `tipo` y forman parte de `storageTypes`, pero no deben contarse ni presentarse como ítems oficiales del universo.
 
-- `Concepto` → `Historia`
-- `Documento` → `Objeto`
-- `Evidencia` → `Objeto`
-- `Biblioteca` → `Historia`
-- `Fuente` → `Objeto`
+## Perfiles
 
-El cliente debe enviar y persistir el tipo canónico. Los aliases existen para interpretar entradas antiguas o lenguaje natural.
+`Perfil` no aparece en las listas de tipos. Es una modalidad de Actor:
+
+```json
+{
+  "tipo": "Actor",
+  "is_profile": true
+}
+```
+
+Representa un tipo de persona o grupo. No corresponde a una persona real. El preset `sys_profile_actor` se aplica únicamente cuando `is_profile` es verdadero.
+
+## Recursos
+
+`Simulacion` aparece en `resourceTypes`. Tiene `typeClass = resource` y `storedInTipo = false`. Su ejecución vive en tablas operativas separadas.
+
+## Aliases vigentes
+
+| Entrada antigua | Tipo actual |
+| --- | --- |
+| `Evidencia` | `Objeto` |
+| `Biblioteca` | `Historia` |
+| `Fuente` | `Source` |
+
+El cliente puede traducir labels para el usuario, pero debe persistir el valor canónico devuelto por el schema.
+
+<Warning>
+  Documentación anterior listaba nueve tipos canónicos incluyendo Post y Snippet. Ese modelo quedó obsoleto en v4.1.
+</Warning>

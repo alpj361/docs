@@ -1,0 +1,66 @@
+---
+title: "Geografía y territorios"
+sidebarTitle: "Geografía"
+description: "Fronteras, áreas, puntos, jerarquía administrativa y ownership geográfico."
+---
+
+El contrato distingue el ítem `Territorio` de su representación espacial. Una coordenada no define por sí sola si el registro es una frontera, un área o un punto.
+
+## Modos espaciales
+
+| Modo | Representa | Mapa |
+| --- | --- | --- |
+| `frontier` | Límite oficial, curado o creado por un usuario | Polígono o multipolígono |
+| Área | Jurisdicción informal, zona de influencia, cobertura o polígono investigativo | Polígono |
+| Punto / POI | Lugar con coordenadas exactas | Pin |
+
+`place`, punto y POI describen la misma familia de representación puntual. Solo los registros con coordenadas válidas pueden dibujarse como pin.
+
+## Fronteras
+
+`frontier` es una propiedad explícita del modelo. No se infiere porque una coordenada caiga dentro de un municipio.
+
+Una frontera puede:
+
+- apuntar a un límite canónico oficial o curado;
+- conservar procedencia oficial, curada o creada por usuario;
+- pertenecer a una jerarquía administrativa;
+- asociar códigos administrativos o postales;
+- guardar una geometría propia cuando representa una jurisdicción no oficial.
+
+Un departamento creado por un usuario puede asociarse después a un límite canónico. Esa relación permite distinguir el registro del usuario del catálogo oficial sin perder sus notas, relaciones o campos.
+
+## Jerarquía administrativa
+
+Las fronteras administrativas usan posiciones jerárquicas de 1 a 6. El significado visible depende del país y la localidad.
+
+Ejemplos posibles:
+
+| Posición | Guatemala | Otros contextos posibles |
+| ---: | --- | --- |
+| 1 | País | País |
+| 2 | Departamento | Estado, provincia |
+| 3 | Municipio | Condado, distrito, comuna |
+| 4 | Zona o división local | Colonia, localidad, borough |
+| 5 | Subdivisión menor | Cantón, aldea, barrio |
+| 6 | Unidad local opcional | Sector, caserío u otra unidad |
+
+Los nombres son metadata localizada. El contrato depende de la posición jerárquica, no de comparar strings como “departamento” o “municipio”. Las posiciones 5 y 6 pueden faltar.
+
+Los códigos postales se asocian al nivel territorial que corresponda localmente. En Estados Unidos pueden delimitar áreas relevantes; en Guatemala suelen ayudar a ubicar un municipio o sector, pero no sustituyen la jerarquía.
+
+## Áreas personalizadas
+
+Un área sin modelo `frontier` no usa jerarquía administrativa ni código postal como identidad principal. Puede representar cobertura, jurisdicción de hecho, zona de influencia o una hipótesis geográfica.
+
+## Puntos y contención
+
+Un POI guarda coordenadas exactas. El backend puede resolver qué fronteras lo contienen. Si después se agrega una posición jerárquica más específica, la contención puede recalcularse sin cambiar las coordenadas del POI.
+
+## Campos Codex vs geometría
+
+El tipo de campo `geo` guarda `{ lat, lng }`. No sustituye el contrato espacial del Territorio, la geometría de una frontera ni un shape complejo.
+
+<Note>
+  La próxima revisión del contrato profundizará la taxonomía localizada y el manejo de más datos por posición jerárquica. Los clientes deben evitar hardcodear nombres de nivel mientras tanto.
+</Note>

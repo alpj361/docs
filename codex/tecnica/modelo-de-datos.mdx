@@ -1,62 +1,95 @@
 ---
 title: "Modelo de datos"
 sidebarTitle: "Modelo de datos"
-description: "Tablas, snapshots de presets y aislamiento por usuario en Supabase."
+description: "Ítems, Sources, Perfiles, presets, simulaciones y aislamiento por usuario."
 ---
 
 ## `codex_universe_items`
 
 | Columna | Tipo | Uso |
 | --- | --- | --- |
-| `id` | UUID | Identidad del ítem |
+| `id` | UUID | Identidad del registro |
 | `user_id` | UUID | Propietario |
-| `tipo` | citext | Tipo canónico |
-| `name` | text | Nombre principal |
+| `tipo` | citext | Tipo físico aceptado por `storageTypes` |
+| `name` | text | Nombre o título principal |
 | `description` | text nullable | Resumen |
-| `aliases` | text\[\] | Nombres alternativos |
-| `tags` | text\[\] | Etiquetas |
-| `details` | jsonb | Puente temporal de valores por label |
-| `field_keys` | text\[\] | Campos asociados |
-| `preset_keys` | text\[\] | Presets aplicados |
-| `geo` | jsonb nullable | Datos geográficos legacy |
+| `aliases` | text[] | Nombres alternativos |
+| `tags` | text[] | Etiquetas |
+| `details` | jsonb | Puente temporal por label |
+| `field_keys` | text[] | Campos asociados |
+| `preset_keys` | text[] | Presets aplicados |
+| `is_profile` | boolean | Solo distingue Perfiles dentro de Actor |
+| `geo` | jsonb nullable | Compatibilidad geográfica |
 | `geo_geometry` | geometry nullable | Geometría espacial |
 
-`field_keys` y `preset_keys` tienen índices GIN.
+`Source` se almacena en esta tabla con `tipo = 'Source'`. No existe una tabla paralela de Sources. Esto permite relaciones, búsqueda, tags, presets y campos personalizados con las mismas reglas de ownership.
 
-## `codex_user_fields`
+`Post` y `Snippet` también conservan un valor en `tipo`, pero el schema los clasifica como auxiliares.
+
+### Perfil
+
+Un Perfil es:
+
+```json
+{
+  "tipo": "Actor",
+  "is_profile": true
+}
+```
+
+El backend rechaza `is_profile = true` para otros tipos. Los actores existentes conservan `false` por defecto.
+
+## Catálogos por usuario
+
+### `codex_user_fields`
 
 | Columna | Uso |
 | --- | --- |
 | `field_key` | Clave estable |
-| `label` | Copy visible |
+| `label` | Texto visible |
 | `field_type` | Tipo y shape normativo |
-| `config` | `options`, `poles`, `cols` o configuración futura |
+| `config` | Opciones, polos, columnas u otra configuración |
 | `item_types` | Tipos donde aplica |
-| `reason` | Motivo obligatorio de creación |
+| `reason` | Motivo de creación |
 | `created_by` | `user`, `agent` o `migration` |
 | `active` | Disponibilidad en catálogo |
 
-## `codex_user_presets`
+### `codex_user_presets`
 
 | Columna | Uso |
 | --- | --- |
 | `preset_key` | Identidad estable |
 | `label` | Nombre visible |
-| `description` | Explicación opcional |
-| `item_types` | Tipos donde aplica |
+| `description` | Propósito |
+| `item_types` | Tipos compatibles |
 | `field_keys` | Campos incluidos |
 | `active` | Disponibilidad |
 
-## Presets como snapshot
+Aplicar un preset agrega su clave a `preset_keys` e incorpora sus campos a `field_keys`. El ítem conserva un snapshot de procedencia: editar el preset no reescribe silenciosamente ítems existentes.
 
-Aplicar un preset agrega su clave a `preset_keys` e incorpora sus campos a `field_keys`. No duplica definiciones ni actualiza retroactivamente el ítem cuando cambia el preset. Un ítem puede combinar varios presets. Enviar `preset_keys: []` elimina la procedencia, pero conserva los campos incorporados.
+## Simulaciones
 
-## RLS
+`Simulacion` es un recurso separado, no un valor de `codex_universe_items.tipo`.
 
-Las tres tablas tienen RLS habilitado. Lectura y escritura se restringen con:
+| Tabla | Responsabilidad |
+| --- | --- |
+| `codex_simulations` | Escenario, estado, versión del motor, snapshots, métricas y análisis |
+| `codex_simulation_events` | Acciones y timeline append-only |
+
+La simulación conserva referencias actuales y snapshots históricos. Editar posteriormente un Actor, Perfil o Source no cambia el significado de una ejecución anterior.
+
+El avance utiliza un token de turno e idempotencia para que un retry no duplique acciones. El timeline crece por filas y puede paginarse sin reescribir un JSON completo.
+
+## RLS y ownership
+
+Los ítems, campos, presets y simulaciones se aíslan por usuario. La regla base es:
 
 ```sql
 auth.uid() = user_id
 ```
 
-Cada catálogo personal, preset e ítem pertenece al usuario autenticado.
+Los eventos de simulación verifican ownership a través de su simulación padre. Las referencias `ref`, `refs`, `archivo` e `imagen` también deben apuntar a registros accesibles por el mismo usuario.
+
+<Note>
+  Un UUID válido no basta: el backend también comprueba que el usuario pueda acceder al registro referenciado.
+</Note>
