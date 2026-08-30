@@ -46,6 +46,7 @@
         "pages": [
           "quickstart",
           "codex/tecnica/arquitectura",
+          "codex/tecnica/proyectos-espacios-y-datos",
           "codex/tecnica/modelo-de-datos",
           "codex/tecnica/tipos-de-item",
           "codex/tecnica/tipos-de-campo",
